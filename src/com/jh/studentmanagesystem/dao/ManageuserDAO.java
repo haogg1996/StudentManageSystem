@@ -1,6 +1,11 @@
 package com.jh.studentmanagesystem.dao;
 
+import java.util.List;
+
+import org.hibernate.Query;
+
 import com.jh.studentmanagesystem.bean.Manageuser;
+import com.jh.studentmanagesystem.bean.UserInfo;
 
 public class ManageuserDAO extends BaseDAO<Manageuser>
 {
@@ -8,4 +13,12 @@ public class ManageuserDAO extends BaseDAO<Manageuser>
   {
     return Manageuser.class.getName();
   }
+  public boolean selectByManager(Manageuser user) {
+		transaction=session.beginTransaction();
+		String queryString = String.format("from UserInfo where name='%s' and password='%s'",user.getName(),user.getPassword());
+		Query query = session.createQuery(queryString);
+		List list = query.list();
+		transaction.commit();
+		return list.size()>0?true:false;
+	}
 }
