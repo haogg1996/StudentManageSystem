@@ -64,16 +64,16 @@ public class LoginServelet extends HttpServlet {
 		if ("stud".equals(part)) {
 			UserInfoDAO dao=new UserInfoDAO();
 			if (dao.selectByUser(new UserInfo(request.getParameter("TxtUserName"),request.getParameter("TxtPassword")))) {
-				response.getWriter().print("ç™»å½•æˆåŠŸï¼");
+				response.getWriter().print("µÇÂ¼³É¹¦£¡");
 			}else {
-				response.getWriter().print("ç™»å½•å¤±è´¥ï¼");
+				response.getWriter().print("µÇÂ¼Ê§°Ü£¡");
 			}
 		}else if ("admin".equals(part)) {
 			ManageuserDAO dao=new ManageuserDAO();
 			if (dao.selectByManager(new Manageuser(request.getParameter("TxtUserName"),request.getParameter("TxtPassword")))) {
-				response.getWriter().print("ç™»å½•æˆåŠŸï¼");
+				response.getWriter().print("µÇÂ¼³É¹¦£¡");
 			}else {
-				response.getWriter().print("ç™»å½•å¤±è´¥ï¼");
+				response.getWriter().print("µÇÂ¼Ê§°Ü£¡");
 			}
 		}
 	}
