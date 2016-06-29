@@ -58,24 +58,25 @@ public class LoginServelet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setCharacterEncoding("GBK");
+		response.setCharacterEncoding("UTF-8");
 		String part=request.getParameter("part");
-		
+		String name=request.getParameter("TxtUserName");
 		if ("stud".equals(part)) {
 			UserInfoDAO dao=new UserInfoDAO();
-			if (dao.selectByUser(new UserInfo(request.getParameter("TxtUserName"),request.getParameter("TxtPassword")))) {
-				response.getWriter().print("µ«¬º≥…π¶£°");
-			}else {
-				response.getWriter().print("µ«¬º ß∞‹£°");
+			if (!dao.selectByUser(new UserInfo(name,request.getParameter("TxtPassword")))) {
+				response.getWriter().print("ÁôªÂΩïÂ§±Ë¥•ÔºÅ");
+				return;
 			}
 		}else if ("admin".equals(part)) {
 			ManageuserDAO dao=new ManageuserDAO();
-			if (dao.selectByManager(new Manageuser(request.getParameter("TxtUserName"),request.getParameter("TxtPassword")))) {
-				response.getWriter().print("µ«¬º≥…π¶£°");
-			}else {
-				response.getWriter().print("µ«¬º ß∞‹£°");
+			if (!dao.selectByManager(new Manageuser(name,request.getParameter("TxtPassword")))) {
+				response.getWriter().print("ÁôªÂΩïÂ§±Ë¥•ÔºÅ");
+				return;
 			}
 		}
+		request.getSession().setAttribute("part", part);
+		request.getSession().setAttribute("name", name);
+		response.sendRedirect("index.jsp");
 	}
 
 	/**

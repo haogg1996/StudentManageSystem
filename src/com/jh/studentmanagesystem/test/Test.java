@@ -2,6 +2,7 @@ package com.jh.studentmanagesystem.test;
 
 import com.jh.studentmanagesystem.bean.Manageuser;
 import com.jh.studentmanagesystem.bean.UserInfo;
+import com.jh.studentmanagesystem.dao.BaseDAO;
 import com.jh.studentmanagesystem.dao.CscourseDAO;
 import com.jh.studentmanagesystem.dao.ManageuserDAO;
 import com.jh.studentmanagesystem.dao.UserInfoDAO;
@@ -12,19 +13,28 @@ import org.junit.Before;
 
 public class Test
 {
-  ManageuserDAO dao;
+  BaseDAO<UserInfo> dao;
   
 
   @Before
   public void before()
   {
-    this.dao = new ManageuserDAO();
+    this.dao = new BaseDAO<UserInfo>() {
+
+		@Override
+		public String setClassName() {
+			// TODO Auto-generated method stub
+			return UserInfo.class.getName();
+		}
+	};
   }
 
   @org.junit.Test
   public void test()
   {
-    System.out.println(this.dao.selectByManager(new Manageuser("xyh","111")));
-//	  System.out.println(dao.selectBeanByid(1));
+//    UserInfo user = dao.selectBeanByid(1);
+//    user.setName("jh");
+//    dao.updataBean(user);
+    System.out.println(dao.selectBeanByid(1));
   }
 }

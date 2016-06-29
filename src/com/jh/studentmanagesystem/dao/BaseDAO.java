@@ -38,4 +38,17 @@ public abstract class BaseDAO<T>
     System.out.println(id);
     return id > 0;
   }
+  
+  public void updataBean(T bean) {
+	  transaction=session.beginTransaction();
+	  session.update(bean);
+	  transaction.commit();
+  }
+  
+  public void deletBean(T bean) {
+	  transaction=session.beginTransaction();
+	  session.delete(bean);
+	  transaction.commit();
+  }
+  
 }
