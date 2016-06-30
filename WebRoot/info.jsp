@@ -8,10 +8,16 @@
     <title>个人信息</title>
 <link href="css/personalinfo.css" rel="stylesheet" type="text/css" />
 <META content="text/html; charset=utf-8" http-equiv="Content-Type">
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE"> 
+<META HTTP-EQUIV="Expires" CONTENT="-1">
 <script type="text/javascript">
 function check(){
 	var pwd=document.getElementById("pwd").value;
 	var pwd2=document.getElementById("pwd2").value;
+	if(pwd==""&&pwd2==""){
+		alert("密码不能为空！！");
+		return false;
+	}
 	if(pwd!=pwd2){
 	alert("两次密码不一致！");
 		return false;
@@ -27,24 +33,26 @@ function check(){
     <div class="div_top">个人信息</div>
 
     <div class="div_con">
-    <form action="#" method="get" onsubmit="return check()">
+    
+    <form action="InfoManage" method="post" onsubmit="return check()">
     <%
     	User userbean= (User)request.getAttribute("bean");
     %>
         <table width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#ccc">
-		    <input type="hidden" value=<%=userbean.getId() %> />
+        	<input type="hidden" value="updata" name="action"/>
+		    <input type="hidden" value=<%=userbean.getId() %> name="id"/>
 		 	<tr align="center">
               <td width="20%">姓名</td>
               <td width="30%"><input type="text" value="<%=userbean.getName() %>" name="name"/></td>
               <td width="20%">年龄</td>
-              <td width="30%"><input type="text" value="<%=userbean.getAge() %>" /></td>
+              <td width="30%"><input type="text" value="<%=userbean.getAge() %>" name="age" /></td>
             </tr> 
             <tr align="center">
               <td>密码</td>
-              <td><input type="password" value="" id="pwd"/></td>
+              <td><input type="password" value="" id="pwd" name="password"/></td>
               <td>出生日期</td>
               <td> 
-                <input type="text" value="<%=userbean.getBirthday() %>" />
+                <input type="text" value="<%=userbean.getBirthday() %>" name="birthday" />
               </td>
             </tr>       
             <tr align="center">
@@ -61,17 +69,17 @@ function check(){
             	  selectedWoman="selected = \"selected\"";
               }
               %>
-                <option value="man" <%=selectedMan %>>男</option>
-                <option value="woman" <%=selectedWoman %> >女</option>                
+                <option value="男" <%=selectedMan %> >男</option>
+                <option value="女" <%=selectedWoman %> >女</option>                
               </select></td>
             </tr>       
                <tr align="center">
               <td>地址</td>
-              <td><input type="text" value="<%=userbean.getAddress() %>" /></td>
+              <td><input type="text" value="<%=userbean.getAddress() %>" name="address"/></td>
               
               <td>电话号码</td>
               <td>
-              <input type="text" value="<%=userbean.getTelephone() %>" /></td>
+              <input type="text" value="<%=userbean.getTelephone() %>" name="telephone"/></td>
             </tr> 
         </table>
 	

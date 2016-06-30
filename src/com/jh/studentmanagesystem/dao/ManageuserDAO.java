@@ -27,6 +27,12 @@ public class ManageuserDAO extends BaseDAO<Manageuser>
 		Query query = session.createQuery(queryString);
 		List list = query.list();
 		transaction.commit();
-		return ((Manageuser)list.get(0)).getId();
+		if (list.size()<=0) {
+			return 0;
+		}else {
+			
+			return ((Manageuser)list.get(0)).getId();
+		}
+		
 	}
 }

@@ -15,6 +15,8 @@ name=(String)session.getAttribute("name");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <META content="text/html; charset=utf-8" http-equiv="Content-Type">
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE"> 
+<META HTTP-EQUIV="Expires" CONTENT="-1">
 <title>学生管理系统</title>
 <link href="css/index.css" rel="stylesheet" type="text/css" />
 <script type="text/JavaScript">

@@ -1,7 +1,7 @@
 package com.jh.studentmanagesystem.servelet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Timestamp;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jh.studentmanagesystem.bean.Manageuser;
-import com.jh.studentmanagesystem.bean.UserInfo;
 import com.jh.studentmanagesystem.bean.User;
+import com.jh.studentmanagesystem.bean.UserInfo;
 import com.jh.studentmanagesystem.dao.ManageuserDAO;
 import com.jh.studentmanagesystem.dao.UserInfoDAO;
 
@@ -57,10 +57,10 @@ public class InfoManageServelet extends HttpServlet {
 				userbean=dao.selectBeanByid(id);
 				
 			}
-			
 			request.setAttribute("bean", userbean);
 			request.getRequestDispatcher("info.jsp").forward(request, response);
 		}
+
 		
 	}
 	
@@ -77,7 +77,43 @@ public class InfoManageServelet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
+		String action = request.getParameter("action");
+		String part=(String) request.getSession().getAttribute("part");
+		response.setCharacterEncoding("utf-8");
+		switch (action) {
+		case "updata":
+			if ("stud".equals(part)) {
+				UserInfoDAO dao=new UserInfoDAO();
+				UserInfo userInfo=new UserInfo();
+				userInfo.setId(Integer.valueOf(request.getParameter("id")));
+				userInfo.setName(request.getParameter("name"));
+				userInfo.setPassword(request.getParameter("password"));
+				userInfo.setAge(Integer.valueOf(request.getParameter("age")));
+				userInfo.setSex(request.getParameter("sex"));
+				userInfo.setAddress(request.getParameter("address"));
+				userInfo.setBirthday(Timestamp.valueOf(request.getParameter("birthday")));
+				userInfo.setTelephone(request.getParameter("telephone"));
+				dao.updataBean(userInfo);
+				response.getWriter().print("修改成功！");
+			}else if ("admin".equals(part)) {
+				ManageuserDAO dao=new ManageuserDAO();
+				Manageuser manageuser=new Manageuser();
+				manageuser.setId(Integer.valueOf(request.getParameter("id")));
+				manageuser.setName(request.getParameter("name"));
+				manageuser.setPassword(request.getParameter("password"));
+				manageuser.setAge(Integer.valueOf(request.getParameter("age")));
+				manageuser.setSex(request.getParameter("sex"));
+				manageuser.setAddress(request.getParameter("address"));
+				manageuser.setBirthday(Timestamp.valueOf(request.getParameter("birthday")));
+				manageuser.setTelephone(request.getParameter("telephone"));
+				dao.updataBean(manageuser);
+				response.getWriter().print("修改成功！");
+			}
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	/**

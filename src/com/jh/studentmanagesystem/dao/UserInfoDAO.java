@@ -26,6 +26,11 @@ public class UserInfoDAO extends BaseDAO<UserInfo> {
 		Query query = session.createQuery(queryString);
 		List list = query.list();
 		transaction.commit();
-		return ((UserInfo)list.get(0)).getId();
+		if (list.size()<=0) {
+			return 0;
+		}else {
+			
+			return ((UserInfo)list.get(0)).getId();
+		}
 	}
 }
