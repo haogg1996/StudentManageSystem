@@ -15,10 +15,18 @@ public class ManageuserDAO extends BaseDAO<Manageuser>
   }
   public boolean selectByManager(Manageuser user) {
 		transaction=session.beginTransaction();
-		String queryString = String.format("from UserInfo where name='%s' and password='%s'",user.getName(),user.getPassword());
+		String queryString = String.format("from Manageuser where name='%s' and password='%s'",user.getName(),user.getPassword());
 		Query query = session.createQuery(queryString);
 		List list = query.list();
 		transaction.commit();
 		return list.size()>0?true:false;
+	}
+  public int selectIdByManager(Manageuser user) {
+		transaction=session.beginTransaction();
+		String queryString = String.format("from Manageuser where name='%s' and password='%s'",user.getName(),user.getPassword());
+		Query query = session.createQuery(queryString);
+		List list = query.list();
+		transaction.commit();
+		return ((Manageuser)list.get(0)).getId();
 	}
 }

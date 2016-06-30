@@ -10,15 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jh.studentmanagesystem.bean.Manageuser;
 import com.jh.studentmanagesystem.bean.UserInfo;
+import com.jh.studentmanagesystem.bean.User;
 import com.jh.studentmanagesystem.dao.ManageuserDAO;
 import com.jh.studentmanagesystem.dao.UserInfoDAO;
 
-public class LoginServelet extends HttpServlet {
+public class InfoManageServelet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public LoginServelet() {
+	public InfoManageServelet() {
 		super();
 	}
 
@@ -42,10 +43,28 @@ public class LoginServelet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		doPost(request, response);
+		String action=request.getParameter("action");
+		String part=(String) request.getSession().getAttribute("part");
+		User userbean = null;
+		int id=(Integer) request.getSession().getAttribute("id");
+		if ("getInfo".equals(action)) {
+			if ("stud".equals(part)) {
+				UserInfoDAO dao=new UserInfoDAO();
+				userbean=dao.selectBeanByid(id);
+				
+			}else if ("admin".equals(part)) {
+				ManageuserDAO dao=new ManageuserDAO();
+				userbean=dao.selectBeanByid(id);
+				
+			}
+			
+			request.setAttribute("bean", userbean);
+			request.getRequestDispatcher("personalinfo.jsp").forward(request, response);
+		}
+		
 	}
-
+	
+	
 	/**
 	 * The doPost method of the servlet. <br>
 	 *
@@ -58,27 +77,7 @@ public class LoginServelet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setCharacterEncoding("UTF-8");
-		String part=request.getParameter("part");
-		String name=request.getParameter("TxtUserName");
-		int id = 0;
-		if ("stud".equals(part)) {
-			UserInfoDAO dao=new UserInfoDAO();
-			if ((id=dao.selectIdByUser(new UserInfo(name,request.getParameter("TxtPassword"))))<=0) {
-				response.getWriter().print("登录失败！");
-				return;
-			}
-		}else if ("admin".equals(part)) {
-			ManageuserDAO dao=new ManageuserDAO();
-			if ((id=dao.selectIdByManager(new Manageuser(name,request.getParameter("TxtPassword"))))<=0) {
-				response.getWriter().print("登录失败！");
-				return;
-			}
-		}
-		request.getSession().setAttribute("part", part);
-		request.getSession().setAttribute("name", name);
-		request.getSession().setAttribute("id", id);
-		response.sendRedirect("index.jsp");
+		doGet(request, response);
 	}
 
 	/**
