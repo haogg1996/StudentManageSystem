@@ -5,13 +5,13 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title></title>
+    <title>个人信息</title>
 <link href="css/personalinfo.css" rel="stylesheet" type="text/css" />
 <META content="text/html; charset=utf-8" http-equiv="Content-Type">
 </head>
 <body>
 
-    <div class="div_top">学生信息</div>
+    <div class="div_top">个人信息</div>
 
     <div class="div_con">
     <%
@@ -31,7 +31,7 @@
               <td><input type="password" value="" /></td>
               <td>出生日期</td>
               <td> 
-                <input type="password" value="" />
+                <input type="text" value="<%=userbean.getBirthday() %>" />
               </td>
             </tr>       
             <tr align="center">
@@ -41,12 +41,16 @@
               <td>
               <select name="sex">
               <%
+              System.out.print("男".equals(userbean.getSex()));
               String selectedMan="",selectedWoman="";
-              	if("男".equals(userbean.getSex())) selectedMan="selected";
-              	else selectedWoman="selected";
+              if("男".equals(userbean.getSex())){
+            	  selectedMan="selected = \"selected\"";
+              }else{
+            	  selectedWoman="selected = \"selected\"";
+              }
               %>
-                <option value="man" selected="<%=selectedMan %>">男</option>
-                <option value="woman" selected="<%=selectedWoman %>" >女</option>                
+                <option value="man" <%=selectedMan %>>男</option>
+                <option value="woman" <%=selectedWoman %> >女</option>                
               </select></td>
             </tr>       
                <tr align="center">
@@ -55,7 +59,7 @@
               
               <td>电话号码</td>
               <td>
-              <input type="password" value="<%=userbean.getTelephone() %>" /></td>
+              <input type="text" value="<%=userbean.getTelephone() %>" /></td>
             </tr> 
             </form>
         </table>

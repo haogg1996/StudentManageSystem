@@ -59,7 +59,7 @@ public class InfoManageServelet extends HttpServlet {
 			}
 			
 			request.setAttribute("bean", userbean);
-			request.getRequestDispatcher("personalinfo.jsp").forward(request, response);
+			request.getRequestDispatcher("info.jsp").forward(request, response);
 		}
 		
 	}

@@ -105,7 +105,7 @@ name=(String)session.getAttribute("name");
 		    <div class="left_menu_one">
 		      <%out.print(stringM1); %>
 		    <div class="left_menu_one">
-		      <a href="personalinfo.jps" target="frm"><span id="O2" class="left_menu_one_img"></span>个人信息管理</a></div>
+		      <a href="InfoManage?action=getInfo" target="frm"><span id="O2" class="left_menu_one_img"></span>个人信息管理</a></div>
 		</div>
 		
 	</div>
