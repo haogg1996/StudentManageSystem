@@ -68,9 +68,9 @@ add constraint fk_Cscourse_course_courseid
 foreign key(courseid)
 references course(courseid)
 
-insert into userInfo values('xyh','111','csmzxy',20,'13077777777','2000-04-18','男')
-insert into Manageuser values('xyh','111','csmzxy',20,'13077777777','2000-04-18','男')
-insert into userInfo values('jordan','111','csmzxy',20,'13077777777','2000-04-18','女')
+insert into userInfo values('jh','111','csmzxy',20,'13077777777','2000-04-18','男')
+insert into Manageuser values('jh','111','csmzxy',20,'13077777777','2000-04-18','男')
+insert into userInfo values('jh1','111','csmzxy',20,'13077777777','2000-04-18','女')
 insert into course values('英语')
 insert into course values('计算机')
 insert into course values('政治')
