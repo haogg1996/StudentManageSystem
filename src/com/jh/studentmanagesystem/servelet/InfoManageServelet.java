@@ -1,6 +1,8 @@
 package com.jh.studentmanagesystem.servelet;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 
 import javax.servlet.ServletException;
@@ -75,47 +77,54 @@ public class InfoManageServelet extends HttpServlet {
 	 * @throws ServletException if an error occurred
 	 * @throws IOException if an error occurred
 	 */
+	String part;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
-		String part=(String) request.getSession().getAttribute("part");
+		part=(String) request.getSession().getAttribute("part");
 		response.setCharacterEncoding("utf-8");
 		switch (action) {
 		case "updata":
-			if ("stud".equals(part)) {
-				UserInfoDAO dao=new UserInfoDAO();
-				UserInfo userInfo=new UserInfo();
-				userInfo.setId(Integer.valueOf(request.getParameter("id")));
-				userInfo.setName(request.getParameter("name"));
-				userInfo.setPassword(request.getParameter("password"));
-				userInfo.setAge(Integer.valueOf(request.getParameter("age")));
-				userInfo.setSex(request.getParameter("sex"));
-				userInfo.setAddress(request.getParameter("address"));
-				userInfo.setBirthday(Timestamp.valueOf(request.getParameter("birthday")));
-				userInfo.setTelephone(request.getParameter("telephone"));
-				dao.updataBean(userInfo);
-				response.getWriter().print("修改成功！");
-			}else if ("admin".equals(part)) {
-				ManageuserDAO dao=new ManageuserDAO();
-				Manageuser manageuser=new Manageuser();
-				manageuser.setId(Integer.valueOf(request.getParameter("id")));
-				manageuser.setName(request.getParameter("name"));
-				manageuser.setPassword(request.getParameter("password"));
-				manageuser.setAge(Integer.valueOf(request.getParameter("age")));
-				manageuser.setSex(request.getParameter("sex"));
-				manageuser.setAddress(request.getParameter("address"));
-				manageuser.setBirthday(Timestamp.valueOf(request.getParameter("birthday")));
-				manageuser.setTelephone(request.getParameter("telephone"));
-				dao.updataBean(manageuser);
-				response.getWriter().print("修改成功！");
-			}
+			updateInfo(request, response);
 			break;
 
 		default:
 			break;
 		}
 	}
-
+	
+	public void updateInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		response.setContentType("text/html");  
+		//中文解码，解决乱码
+		String sex=new String(request.getParameter("sex").getBytes("ISO-8859-1"),"UTF-8");
+		if ("stud".equals(part)) {
+			UserInfoDAO dao=new UserInfoDAO();
+			UserInfo userInfo=new UserInfo();
+			userInfo.setId(Integer.valueOf(request.getParameter("id")));
+			userInfo.setName(request.getParameter("name"));
+			userInfo.setPassword(request.getParameter("password"));
+			userInfo.setAge(Integer.valueOf(request.getParameter("age")));
+			userInfo.setSex(sex);
+			userInfo.setAddress(request.getParameter("address"));
+			userInfo.setBirthday(Timestamp.valueOf(request.getParameter("birthday")));
+			userInfo.setTelephone(request.getParameter("telephone"));
+			dao.updataBean(userInfo);
+			response.getWriter().write("<h3>修改成功！</h3>");
+		}else if ("admin".equals(part)) {
+			ManageuserDAO dao=new ManageuserDAO();
+			Manageuser manageuser=new Manageuser();
+			manageuser.setId(Integer.valueOf(request.getParameter("id")));
+			manageuser.setName(request.getParameter("name"));
+			manageuser.setPassword(request.getParameter("password"));
+			manageuser.setAge(Integer.valueOf(request.getParameter("age")));
+			manageuser.setSex(sex);
+			manageuser.setAddress(request.getParameter("address"));
+			manageuser.setBirthday(Timestamp.valueOf(request.getParameter("birthday")));
+			manageuser.setTelephone(request.getParameter("telephone"));
+			dao.updataBean(manageuser);
+			response.getWriter().write("<h3>修改成功！</h3>");
+		}
+	}
 	/**
 	 * Initialization of the servlet. <br>
 	 *

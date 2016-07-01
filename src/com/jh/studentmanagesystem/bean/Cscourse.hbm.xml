@@ -16,5 +16,8 @@
         <many-to-one name="userInfo" class="com.jh.studentmanagesystem.bean.UserInfo" fetch="select">
             <column name="id" not-null="true" />
         </many-to-one>
+        <property name="scores" type="java.lang.Integer">
+            <column name="scores" />
+        </property>
     </class>
 </hibernate-mapping>

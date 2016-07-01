@@ -81,7 +81,7 @@ name=(String)session.getAttribute("name");
 		String stringName=null,stringM1=null;
 		if("stud".equals(part)){
 			stringName="学生："+name;
-			stringM1="<a href=\"#\"><span id=\"O1\" class=\"left_menu_one_img\"></span>选课信息管理</a></div> ";
+			stringM1="<a href=\"CscourseManage?action=getCscourse\"  target=\"frm\"><span id=\"O1\" class=\"left_menu_one_img\"></span>选课信息管理</a></div> ";
 		}else if("admin".equals(part)){
 			stringName="管理员："+name;
 			stringM1="<a onclick=\"show_menu(1)\" href=\"javascript:;\"><span id=\"O1\" class"+
@@ -121,7 +121,7 @@ name=(String)session.getAttribute("name");
 	<div class="left_box">
 		<div class="left_exit_r"></div>
 		<div class="left_box_l"></div>
-		<div class="left_exit_text"><a href="#">安全退出</a></div>
+		<div class="left_exit_text"><a href="Login?action=longout">安全退出</a></div>
 	</div>
 
 </div>

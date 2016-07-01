@@ -2,23 +2,24 @@ package com.jh.studentmanagesystem.servelet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jh.studentmanagesystem.bean.Manageuser;
-import com.jh.studentmanagesystem.bean.UserInfo;
-import com.jh.studentmanagesystem.dao.ManageuserDAO;
-import com.jh.studentmanagesystem.dao.UserInfoDAO;
+import com.jh.studentmanagesystem.bean.Course;
+import com.jh.studentmanagesystem.bean.Cscourse;
+import com.jh.studentmanagesystem.dao.CourseDAO;
+import com.jh.studentmanagesystem.dao.CscourseDAO;
 
-public class LoginServelet extends HttpServlet {
+public class CscourseManageServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public LoginServelet() {
+	public CscourseManageServlet() {
 		super();
 	}
 
@@ -43,9 +44,18 @@ public class LoginServelet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		if ("longout".equals(request.getParameter("action"))) {
-			request.getSession().invalidate();
-			response.sendRedirect("login.html");
+		String action=request.getParameter("action");
+		if ("getCscourse".equals(action)) {
+			CscourseDAO dao=new CscourseDAO();
+			List<Cscourse> cscourses = dao.selectCscourseByUserId((int)request.getSession().getAttribute("id"));
+			request.setAttribute("cscourses", cscourses);
+			request.getRequestDispatcher("cscourse.jsp").forward(request, response);
+		}
+		if ("getCourse".equals(action)) {
+			CourseDAO dao=new CourseDAO();
+			List<Course> courses = dao.selectAll();
+			request.setAttribute("courses", courses);
+			request.getRequestDispatcher("course.jsp").forward(request, response);
 		}
 	}
 
@@ -61,28 +71,14 @@ public class LoginServelet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setCharacterEncoding("UTF-8");
-		String part=request.getParameter("part");
-		String name=request.getParameter("TxtUserName");
-		int id = 0;
-		if ("stud".equals(part)) {
-			UserInfoDAO dao=new UserInfoDAO();
-			if ((id=dao.selectIdByUser(new UserInfo(name,request.getParameter("TxtPassword"))))<=0) {
-				response.getWriter().print("登录失败！");
-				return;
-			}
-		}else if ("admin".equals(part)) {
-			ManageuserDAO dao=new ManageuserDAO();
-			if ((id=dao.selectIdByManager(new Manageuser(name,request.getParameter("TxtPassword"))))<=0) {
-				response.getWriter().print("登录失败！");
-				return;
-			}
+		response.setContentType("text/html");  
+		CscourseDAO dao=new CscourseDAO();
+		String[] couseides = request.getParameterValues("check");
+		for (int i = 0; i < couseides.length; i++) {
+			dao.addCscourse((int)request.getSession().getAttribute("id"), Integer.valueOf(couseides[i]));
 		}
-		System.out.println(name);
-		request.getSession().setAttribute("part", part);
-		request.getSession().setAttribute("name", name);
-		request.getSession().setAttribute("id", id);
-		response.sendRedirect("index.jsp");
+		response.setCharacterEncoding("utf-8");
+		response.getWriter().print("<h3>课程添加成功！</h3>");
 	}
 
 	/**
