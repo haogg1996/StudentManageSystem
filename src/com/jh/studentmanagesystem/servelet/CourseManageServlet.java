@@ -2,23 +2,25 @@ package com.jh.studentmanagesystem.servelet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jh.studentmanagesystem.bean.Manageuser;
-import com.jh.studentmanagesystem.bean.UserInfo;
-import com.jh.studentmanagesystem.dao.ManageuserDAO;
-import com.jh.studentmanagesystem.dao.UserInfoDAO;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class LoginServelet extends HttpServlet {
+import com.jh.studentmanagesystem.bean.Course;
+import com.jh.studentmanagesystem.dao.CourseDAO;
+
+public class CourseManageServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public LoginServelet() {
+	public CourseManageServlet() {
 		super();
 	}
 
@@ -42,10 +44,12 @@ public class LoginServelet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		if ("longout".equals(request.getParameter("action"))) {
-			request.getSession().invalidate();
-			response.sendRedirect("login.html");
+		String action=request.getParameter("action");
+		if ("getlist".equals(action)) {
+			CourseDAO dao=new CourseDAO();
+			List<Course> courses = dao.selectAll();
+			request.setAttribute("courses",courses);
+			request.getRequestDispatcher("courseManage.jsp").forward(request, response);
 		}
 	}
 
@@ -61,29 +65,36 @@ public class LoginServelet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html;charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		String part=request.getParameter("part");
-		String name=request.getParameter("TxtUserName");
-		int id = 0;
-		if ("stud".equals(part)) {
-			UserInfoDAO dao=new UserInfoDAO();
-			if ((id=dao.selectIdByUser(new UserInfo(name,request.getParameter("TxtPassword"))))<=0) {
-				response.getWriter().print("<h3>登录失败！<a href=\"login.html\">返回登录界面</a></h3>");
-				return;
+		response.setContentType("text/json;charset=UTF-8");
+		
+		String action=request.getParameter("action");
+		if ("delesingle".equals(action)) {
+			int id=Integer.valueOf(request.getParameter("id"));
+			System.out.println(id);
+			CourseDAO dao=new CourseDAO();
+			dao.deletCourse(id);
+			JSONObject object=new JSONObject();
+			try {
+				object.put("msg", true);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		}else if ("admin".equals(part)) {
-			ManageuserDAO dao=new ManageuserDAO();
-			if ((id=dao.selectIdByManager(new Manageuser(name,request.getParameter("TxtPassword"))))<=0) {
-				response.getWriter().print("<h3>登录失败！<a href=\"login.html\">返回登录界面</a></h3>");
-				return;
-			}
+			response.getOutputStream().write(object.toString().getBytes());
 		}
-		System.out.println(name);
-		request.getSession().setAttribute("part", part);
-		request.getSession().setAttribute("name", name);
-		request.getSession().setAttribute("id", id);
-		response.sendRedirect("index.jsp");
+		else if ("addcourse".equals(action)) {
+			CourseDAO dao=new CourseDAO();
+			String coursname=new String(request.getParameter("coursename").getBytes("ISO-8859-1"), "utf-8");
+			boolean isInsert=dao.insertBean(new Course(coursname));
+			JSONObject object=new JSONObject();
+			try {
+				object.put("msg", isInsert);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			response.getOutputStream().write(object.toString().getBytes());
+		}
 	}
 
 	/**

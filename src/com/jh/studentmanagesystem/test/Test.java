@@ -1,8 +1,10 @@
 package com.jh.studentmanagesystem.test;
 
+import com.jh.studentmanagesystem.bean.Course;
 import com.jh.studentmanagesystem.bean.Manageuser;
 import com.jh.studentmanagesystem.bean.UserInfo;
 import com.jh.studentmanagesystem.dao.BaseDAO;
+import com.jh.studentmanagesystem.dao.CourseDAO;
 import com.jh.studentmanagesystem.dao.CscourseDAO;
 import com.jh.studentmanagesystem.dao.ManageuserDAO;
 import com.jh.studentmanagesystem.dao.UserInfoDAO;
@@ -32,9 +34,7 @@ public class Test
   @org.junit.Test
   public void test()
   {
-//    UserInfo user = dao.selectBeanByid(1);
-//    user.setName("jh");
-//    dao.updataBean(user);
-    System.out.println(dao.selectBeanByid(1));
+	  CourseDAO dao=new CourseDAO();
+	  dao.deletBean(new Course(3));
   }
 }

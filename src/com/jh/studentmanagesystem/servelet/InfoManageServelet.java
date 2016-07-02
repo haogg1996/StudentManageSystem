@@ -80,6 +80,7 @@ public class InfoManageServelet extends HttpServlet {
 	String part;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setContentType("text/html");  
 		String action = request.getParameter("action");
 		part=(String) request.getSession().getAttribute("part");
 		response.setCharacterEncoding("utf-8");
@@ -88,13 +89,57 @@ public class InfoManageServelet extends HttpServlet {
 			updateInfo(request, response);
 			break;
 
-		default:
+		case "addstud":
+			UserInfoDAO dao=new UserInfoDAO();
+			UserInfo stud=new UserInfo();
+			String sex=new String(request.getParameter("sex").getBytes("ISO-8859-1"),"UTF-8");
+			String address=new String(request.getParameter("address").getBytes("ISO-8859-1"),"UTF-8");
+			String name=new String(request.getParameter("name").getBytes("ISO-8859-1"),"UTF-8");
+			stud.setName(name);
+			stud.setPassword(request.getParameter("password"));
+			stud.setAge(Integer.valueOf(request.getParameter("age")));
+			stud.setSex(sex);
+			stud.setAddress(request.getParameter(address));
+			stud.setBirthday(Timestamp.valueOf(request.getParameter("birthday")));
+			stud.setTelephone(request.getParameter("telephone"));
+			String responseMsg=(dao.insertBean(stud))?"<h3>添加成功！</h3>":"<h3>添加失败！</h3>";
+			response.getWriter().print(responseMsg);
+			break;
+		case "addadmin":
+			ManageuserDAO mDao=new ManageuserDAO();
+			Manageuser mStud=new Manageuser();
+			String mSex=new String(request.getParameter("sex").getBytes("ISO-8859-1"),"UTF-8");
+			mStud.setName(request.getParameter("name"));
+			mStud.setPassword(request.getParameter("password"));
+			mStud.setAge(Integer.valueOf(request.getParameter("age")));
+			mStud.setSex(mSex);
+			mStud.setAddress(request.getParameter("address"));
+			mStud.setBirthday(Timestamp.valueOf(request.getParameter("birthday")));
+			mStud.setTelephone(request.getParameter("telephone"));
+			String responseMsg1=(mDao.insertBean(mStud))?"<h3>添加成功！</h3>":"<h3>添加失败！</h3>";
+			response.getWriter().print(responseMsg1);
+			break;
+		case "reg":
+			UserInfoDAO rdao=new UserInfoDAO();
+			UserInfo rtud=new UserInfo();
+			String rsex=new String(request.getParameter("sex").getBytes("ISO-8859-1"),"UTF-8");
+			String raddress=new String(request.getParameter("address").getBytes("ISO-8859-1"),"UTF-8");
+			String rname=new String(request.getParameter("name").getBytes("ISO-8859-1"),"UTF-8");
+			rtud.setName(rname);
+			rtud.setPassword(request.getParameter("password"));
+			rtud.setAge(Integer.valueOf(request.getParameter("age")));
+			rtud.setSex(rsex);
+			rtud.setAddress(request.getParameter(raddress));
+			rtud.setBirthday(Timestamp.valueOf(request.getParameter("birthday")));
+			rtud.setTelephone(request.getParameter("telephone"));
+			String rresponseMsg=(rdao.insertBean(rtud))?"<h3>注册成功！<a href=\"login.html\">点击返回登录界面</a></h3>":"<h3>添加失败！<a href=\"reg.html\">点击返回注册界面</a></h3>";
+			response.getWriter().print(rresponseMsg);
 			break;
 		}
 	}
 	
 	public void updateInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.setContentType("text/html");  
+		
 		//中文解码，解决乱码
 		String sex=new String(request.getParameter("sex").getBytes("ISO-8859-1"),"UTF-8");
 		if ("stud".equals(part)) {

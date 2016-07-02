@@ -17,6 +17,13 @@ public class CscourseDAO extends BaseDAO<Cscourse>
     return Cscourse.class.getName();
   }
 
+  public void deletCoursesByCourseId(int courseId) {
+	  this.transaction = this.session.beginTransaction();
+	    Query query = this.session.createQuery("delete  Cscourse where course.courseid=" + courseId);
+	    query.executeUpdate();
+	    transaction.commit();
+}
+  
   public List<Cscourse> selectCscourseByUserId(int userid) {
     this.transaction = this.session.beginTransaction();
     Query query = this.session.createQuery("from Cscourse where userInfo.id=" + userid);
@@ -28,4 +35,5 @@ public class CscourseDAO extends BaseDAO<Cscourse>
 	  UserInfo user = dao.selectBeanByid(userid);
 	  return insertBean(new Cscourse(new Course(courseid), user));
   }
+  
 }

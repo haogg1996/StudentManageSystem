@@ -86,10 +86,10 @@ name=(String)session.getAttribute("name");
 			stringName="管理员："+name;
 			stringM1="<a onclick=\"show_menu(1)\" href=\"javascript:;\"><span id=\"O1\" class"+
 					"=\"left_menu_one_img\"></span>帐户管理</a></div><div class=\"left_menu_two\" id"+
-					"=\"Oli1\"><ul><li><a href=\"?????\" target=\"frm\">&middot;学生帐户管理</a></li>"+
-					"<li><a href=\"????\" >&middot;管理员帐户管理</a></li></ul></div><div class=\"left_menu_one\">"+
+					"=\"Oli1\"><ul><li><a href=\"List?part=stud\" target=\"frm\">&middot;学生帐户管理</a></li>"+
+					"<li><a href=\"List?part=admin\" target=\"frm\">&middot;管理员帐户管理</a></li></ul></div><div class=\"left_menu_one\">"+
 					"<a onclick=\"show_menu(2)\" href=\"javascript:;\"><span id=\"O2\" class"+
-					"=\"left_menu_one_img\"></span><li><a href=\"#\">&middot;  课程信息管理</a></div>";
+					"=\"left_menu_one_img\"></span><li><a href=\"CourseManage?action=getlist\"  target=\"frm\">&middot;  课程信息管理</a></div>";
 		}%>
 		
 		<div class="left_box_text"><%=stringName %></div>

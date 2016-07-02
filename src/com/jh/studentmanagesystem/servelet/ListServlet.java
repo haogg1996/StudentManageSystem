@@ -2,6 +2,7 @@ package com.jh.studentmanagesystem.servelet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,12 +14,12 @@ import com.jh.studentmanagesystem.bean.UserInfo;
 import com.jh.studentmanagesystem.dao.ManageuserDAO;
 import com.jh.studentmanagesystem.dao.UserInfoDAO;
 
-public class LoginServelet extends HttpServlet {
+public class ListServlet extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public LoginServelet() {
+	public ListServlet() {
 		super();
 	}
 
@@ -42,10 +43,18 @@ public class LoginServelet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		if ("longout".equals(request.getParameter("action"))) {
-			request.getSession().invalidate();
-			response.sendRedirect("login.html");
+		String part=request.getParameter("part");
+		if ("stud".equals(part)) {
+			UserInfoDAO dao=new UserInfoDAO();
+			List<UserInfo> users = dao.selectAll();
+			request.setAttribute("users", users);
+			request.getRequestDispatcher("userlist.jsp").forward(request, response);
+		}
+		else if ("admin".equals(part)) {
+			ManageuserDAO dao=new ManageuserDAO();
+			List<Manageuser> user = dao.selectAll();
+			request.setAttribute("users", user);
+			request.getRequestDispatcher("userlist.jsp").forward(request, response);
 		}
 	}
 
@@ -61,29 +70,20 @@ public class LoginServelet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html;charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		String part=request.getParameter("part");
-		String name=request.getParameter("TxtUserName");
-		int id = 0;
-		if ("stud".equals(part)) {
-			UserInfoDAO dao=new UserInfoDAO();
-			if ((id=dao.selectIdByUser(new UserInfo(name,request.getParameter("TxtPassword"))))<=0) {
-				response.getWriter().print("<h3>登录失败！<a href=\"login.html\">返回登录界面</a></h3>");
-				return;
-			}
-		}else if ("admin".equals(part)) {
-			ManageuserDAO dao=new ManageuserDAO();
-			if ((id=dao.selectIdByManager(new Manageuser(name,request.getParameter("TxtPassword"))))<=0) {
-				response.getWriter().print("<h3>登录失败！<a href=\"login.html\">返回登录界面</a></h3>");
-				return;
-			}
-		}
-		System.out.println(name);
-		request.getSession().setAttribute("part", part);
-		request.getSession().setAttribute("name", name);
-		request.getSession().setAttribute("id", id);
-		response.sendRedirect("index.jsp");
+
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
+		out.println("<HTML>");
+		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
+		out.println("  <BODY>");
+		out.print("    This is ");
+		out.print(this.getClass());
+		out.println(", using the POST method");
+		out.println("  </BODY>");
+		out.println("</HTML>");
+		out.flush();
+		out.close();
 	}
 
 	/**

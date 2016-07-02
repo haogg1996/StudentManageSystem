@@ -19,6 +19,10 @@ public class Course
   {
     this.courseid = courseid;
   }
+  public Course(String coursename)
+  {
+    this.courseName = coursename;
+  }
 
   public Course(Integer courseid, String courseName, Set cscourses)
   {

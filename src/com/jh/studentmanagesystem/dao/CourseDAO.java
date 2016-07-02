@@ -8,4 +8,10 @@ public class CourseDAO extends BaseDAO<Course>
   {
     return Course.class.getName();
   }
+  
+  public void deletCourse(int id) {
+	CscourseDAO dao=new CscourseDAO();
+	dao.deletCoursesByCourseId(id);
+	deletBean(new Course(id));
+}
 }

@@ -55,7 +55,7 @@ public class CscourseManageServlet extends HttpServlet {
 			CourseDAO dao=new CourseDAO();
 			List<Course> courses = dao.selectAll();
 			request.setAttribute("courses", courses);
-			request.getRequestDispatcher("course.jsp").forward(request, response);
+			request.getRequestDispatcher("selectcourse.jsp").forward(request, response);
 		}
 	}
 
@@ -71,13 +71,12 @@ public class CscourseManageServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html");  
+		response.setContentType("text/html;charset=UTF-8");
 		CscourseDAO dao=new CscourseDAO();
 		String[] couseides = request.getParameterValues("check");
 		for (int i = 0; i < couseides.length; i++) {
 			dao.addCscourse((int)request.getSession().getAttribute("id"), Integer.valueOf(couseides[i]));
 		}
-		response.setCharacterEncoding("utf-8");
 		response.getWriter().print("<h3>课程添加成功！</h3>");
 	}
 

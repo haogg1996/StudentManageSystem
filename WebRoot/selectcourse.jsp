@@ -13,6 +13,7 @@ pageEncoding="UTF-8"%>
 <META content="text/html; charset=utf-8" http-equiv="Content-Type">
 <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE"> 
 <META HTTP-EQUIV="Expires" CONTENT="-1">
+
 </head>
 <body>
 
@@ -23,7 +24,7 @@ pageEncoding="UTF-8"%>
         <table width="100%" cellspacing="1" cellpadding="0" border="0" bgcolor="#cccs">
      
 		    <tr align="center">
-			<td >课程编号</td>          
+			<td >姓名</td>          
 			<td >课程名</td>          
 			<td >选择</td>           
 		</tr>
