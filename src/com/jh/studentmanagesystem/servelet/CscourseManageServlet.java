@@ -2,7 +2,9 @@ package com.jh.studentmanagesystem.servelet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jh.studentmanagesystem.bean.Course;
 import com.jh.studentmanagesystem.bean.Cscourse;
+import com.jh.studentmanagesystem.bean.UserInfo;
 import com.jh.studentmanagesystem.dao.CourseDAO;
 import com.jh.studentmanagesystem.dao.CscourseDAO;
+import com.jh.studentmanagesystem.dao.UserInfoDAO;
 
 public class CscourseManageServlet extends HttpServlet {
 
@@ -54,6 +58,16 @@ public class CscourseManageServlet extends HttpServlet {
 		if ("getCourse".equals(action)) {
 			CourseDAO dao=new CourseDAO();
 			List<Course> courses = dao.selectAll();
+			UserInfoDAO userdao=new UserInfoDAO();
+			UserInfo user = userdao.selectBeanByid((int)request.getSession().getAttribute("id"));
+			Set cscourses1=user.getCscourses();
+			Iterator iterator = cscourses1.iterator();
+			while (iterator.hasNext()) {
+				Cscourse c= (Cscourse) iterator.next();
+				if (courses.contains(c.getCourse())) {
+					courses.remove(c.getCourse());
+				}
+			}
 			request.setAttribute("courses", courses);
 			request.getRequestDispatcher("selectcourse.jsp").forward(request, response);
 		}
@@ -77,7 +91,9 @@ public class CscourseManageServlet extends HttpServlet {
 		for (int i = 0; i < couseides.length; i++) {
 			dao.addCscourse((int)request.getSession().getAttribute("id"), Integer.valueOf(couseides[i]));
 		}
-		response.getWriter().print("<h3>课程添加成功！</h3>");
+//		response.getWriter().print("<h3>课程添加成功！</h3>");
+		//<script>alert('该数据已经同步完成');</script><script>alert('该数据已经同步完成');</script>
+		response.getWriter().print("<script>alert('选课成功！');window.location='CscourseManage?action=getCscourse';</script>");
 	}
 
 	/**

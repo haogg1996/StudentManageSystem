@@ -37,6 +37,7 @@
 			<attribute name="owner.project.facets" value="me.hibernate"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/json.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/junit-4.8.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/sqljdbc4.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>

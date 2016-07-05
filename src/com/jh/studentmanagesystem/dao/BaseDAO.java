@@ -35,7 +35,6 @@ public abstract class BaseDAO<T>
     this.transaction = this.session.beginTransaction();
     int id = ((Integer)this.session.save(bean)).intValue();
     this.transaction.commit();
-    System.out.println(id);
     return id > 0;
   }
   

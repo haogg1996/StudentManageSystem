@@ -25,9 +25,12 @@ public class CscourseDAO extends BaseDAO<Cscourse>
 }
   
   public List<Cscourse> selectCscourseByUserId(int userid) {
+	
     this.transaction = this.session.beginTransaction();
     Query query = this.session.createQuery("from Cscourse where userInfo.id=" + userid);
-    return query.list();
+    List list = query.list();
+    transaction.commit();
+    return list;
   }
   
   public boolean addCscourse(int userid,int courseid) {

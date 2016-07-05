@@ -17,7 +17,7 @@
             <column name="id" not-null="true" />
         </many-to-one>
         <property name="scores" type="java.lang.Integer">
-            <column name="scores" />
+            <column name="scores" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>
